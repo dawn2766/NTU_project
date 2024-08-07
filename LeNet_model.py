@@ -14,10 +14,10 @@ def data_tensor_get():
     def read_data(train=True):
         data = []
         if train:
-            num = 179
+            num = 180
             floder = "TrainImage"
         else:
-            num = 26
+            num = 27
             floder = "TestImage"
 
         transform = transforms.Compose([
@@ -56,13 +56,13 @@ class MyDataset(Dataset):
 
 
 net = nn.Sequential(
-    nn.Conv2d(1, 6, kernel_size=5, padding=2), nn.Sigmoid(),
-    nn.AvgPool2d(kernel_size=2, stride=2),
-    nn.Conv2d(6, 16, kernel_size=5), nn.Sigmoid(),
-    nn.AvgPool2d(kernel_size=2, stride=2),
+    nn.Conv2d(1, 6, kernel_size=5, padding=2), nn.ReLU(),
+    nn.MaxPool2d(kernel_size=2, stride=2),
+    nn.Conv2d(6, 16, kernel_size=5), nn.ReLU(),
+    nn.MaxPool2d(kernel_size=2, stride=2),
     nn.Flatten(),
-    nn.Linear(16 * 5 * 5, 120), nn.Sigmoid(),
-    nn.Linear(120, 84), nn.Sigmoid(),
+    nn.Linear(16 * 5 * 5, 120), nn.ReLU(),
+    nn.Linear(120, 84), nn.ReLU(),
     nn.Linear(84, 10))
 
 
@@ -120,7 +120,7 @@ def train_model(net, train_iter, test_iter, num_epochs, lr, device):
             optimizer.step()
 
             with torch.no_grad():
-                train_loss = l
+                train_loss = l.item()
                 train_acc = train_acc_cal(y_hat, y)
                 test_acc = test_acc_cal(net, test_iter, device)
 
@@ -137,11 +137,9 @@ def train_model(net, train_iter, test_iter, num_epochs, lr, device):
     torch.save(net.state_dict(), 'LeNet.pth')
     print(f'FINAL: loss {train_loss:.3f}, train acc {train_acc:.3f}, '
           f'test acc {test_acc:.3f}')
-    # print(f'{metric[2] * num_epochs / timer.sum():.1f} examples/sec '
-    #       f'on {str(device)}')
 
 
-lr = 0.9
+lr = 10e-1
 device = 'cuda'
 num_epochs = 10
 batch_size = 40
