@@ -21,7 +21,7 @@ def data_tensor_get():
             floder = "TestImage"
 
         transform = transforms.Compose([
-            transforms.Resize((28, 28)),  # 调整图像大小为 224x224
+            transforms.Resize((224, 224)),  # 调整图像大小为 224x224
             transforms.Grayscale(num_output_channels=1),  # 将图像转换为灰度图像，单通道
             transforms.ToTensor(),  # 将图像转换为张量
             # 将张量数据归一化到 [-1, 1] 的范围
@@ -56,13 +56,14 @@ class MyDataset(Dataset):
 
 
 net = nn.Sequential(
-    nn.Conv2d(1, 6, kernel_size=5, padding=2), nn.ReLU(),
+    nn.Conv2d(1, 3, kernel_size=5, padding=2), nn.ReLU(),
     nn.MaxPool2d(kernel_size=2, stride=2),
+    nn.Conv2d(3, 6, kernel_size=5, padding=2), nn.ReLU(),
     nn.Conv2d(6, 16, kernel_size=5), nn.ReLU(),
     nn.MaxPool2d(kernel_size=2, stride=2),
     nn.Flatten(),
-    nn.Linear(16 * 5 * 5, 120), nn.ReLU(),
-    nn.Linear(120, 84), nn.ReLU(),
+    nn.Linear(16 * 54 * 54, 240), nn.ReLU(),
+    nn.Linear(240, 84), nn.ReLU(),
     nn.Linear(84, 10))
 
 
@@ -139,7 +140,7 @@ def train_model(net, train_iter, test_iter, num_epochs, lr, device):
           f'test acc {test_acc:.3f}')
 
 
-lr = 10e-1
+lr = 10e-3
 device = 'cuda'
 num_epochs = 10
 batch_size = 40
