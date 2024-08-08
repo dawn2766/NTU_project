@@ -3,11 +3,7 @@ import torch.nn as nn
 import torch.utils
 from PIL import Image
 from torchvision import transforms
-from d2l import torch as d2l
 from torch.utils.data import Dataset, DataLoader
-
-labels = ["老校门", "建校纪念碑", "小笼包（创意之室）内部", "小笼包（创意之室）外部",
-          "商学院", "计算与数据科学学院", "华裔馆", "校牌", "云南园", "教学楼一角"]
 
 
 def data_tensor_get():
