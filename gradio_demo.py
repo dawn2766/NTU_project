@@ -68,7 +68,6 @@ def predict(image, user_talk):
 
     image_label = classify_img(image)
     # print(image_label)
-    image_label = "Xiao Long Bao"
     if not session_id:
         responses = Application.call(app_id=app_id_VisionVoice,
                                      prompt=f"I uploaded an image of '{image_label}' at Nanyang Technological University in Singapore, please tell me the context of this image first. Then use the information of '{image_label}' to answer my question. My question is:"+user_talk,
