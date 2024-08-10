@@ -143,4 +143,4 @@ batch_size = 40
 
 if __name__ == "__main__":
     train_iter, test_iter = load_dataset(batch_size)
-    train_model(net, train_iter, test_iter, num_epochs, lr, d2l.try_gpu())
+    train_model(net, train_iter, test_iter, num_epochs, lr, device)
